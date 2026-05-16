@@ -1,108 +1,130 @@
-# Sustainable-Fashion-Discourse
+# Sustainable-Fashion-Discourse: A Topic-Emotion-Strategy Framework for Sustainable Fashion Communication
 
-## 📌 Overview
+This repository contains the annotated datasets, model training notebooks, and reproducibility materials for the paper titled:
 
-This repository contains the annotated datasets, classification prompts, model training notebooks, BERTopic outputs, and reproducibility materials for the paper:
-
-> **"Beyond Greenwashing: Mapping Consumer Discourse Priorities and Topic-Emotion-Strategy Communication Gaps in Sustainable Fashion Marketing"**
+> **"Beyond Greenwashing: Topic-Emotion Gaps in Consumer Discourse on Sustainable Fashion Marketing"**
 
 ---
 
 ## 📂 Repository Structure
-
-```
 sustainable-fashion-discourse/
+```
 │
-├── data/
-│   ├── stage1_sustainability_dimensions_annotated.xlsx     ← BERT Stage 1 labeled data
-│   └── stage2_emotional_traits_annotated.xlsx             ← BERT Stage 2 labeled data
+├── dataset/
+│   ├── stage1_sustainability_dimension.xlsx
+│   └── stage2_emotional_traits.xlsx
 │
-├── prompts/
-│   ├── prompt_stage1_sustainability_dimensions.txt        ← Claude API annotation prompt (Stage 1)
-│   └── prompt_stage2_emotional_traits.txt                 ← Claude API annotation prompt (Stage 2)
+├── codes/
+│   ├── BERT/
+│   │   ├── Stage 1 - Sustainability Dimension Classification/
+│   │   └── Stage 2 - Emotional Trait Classification/
+│   └── BERTopic/
+│       ├── Environment Topic Modeling/
+│       ├── Economic Topic Modeling/
+│       └── Social Topic Modeling/
 │
-│   ├── bert_stage1_sustainability.ipynb               ← BERT fine-tuning: sustainability dimensions
-│   ├── bert_stage2_emotions.ipynb                     ← BERT fine-tuning: emotional traits
-│   ├── bertopic_environment.ipynb                     ← BERTopic: environment corpus (n=5,410)
-│   ├── bertopic_economic.ipynb                        ← BERTopic: economic corpus (n=6,101)
-│   └── bertopic_social.ipynb                          ← BERTopic: social corpus
-(n=4,658)
+├── prompt/
+│   ├── prompt_stage1_sustainability_dimension/
+│   ├── prompt_stage2_emotional_trait/
+│
+├── results/
+│   ├── figures/
+│   ├── tables/
+│   └── topic_outputs/
 │
 ├── requirements.txt
 ├── LICENSE
-├── CITATION.cff
-└── README.md
+└── CITATION.cff
 ```
-
 ---
 
 ## 📘 Project Overview
 
-### The Problem
+This project introduces a multi-layer computational framework to analyze how sustainable fashion is:
 
-Sustainable fashion brands increasingly adopt sustainability messaging, yet consumer trust continues to erode. Existing research has diagnosed this at the *dimensional* level (e.g., "brands over-emphasize environmental concerns").
+* **Discussed** (Stage 1: Sustainability Dimension Classification — mapping discourse to economic, social, environmental, cultural, and aesthetic dimensions)
+* **Felt** (Stage 2: Emotional Trait Classification — identifying anger, skepticism, concern, hope, and frustration in consumer discourse)
+* **Structured** (Topic Modeling: unsupervised BERTopic analysis within the three analytically dominant dimensions)
 
-### The Approach: Three-Layer Analytical Framework
+The analysis culminates in the **Topic-Emotion-Strategy (TES) framework**, which links consumer-prioritized topics with dominant emotional responses to diagnose communication gaps between brand sustainability messaging and consumer concerns.
 
-| Layer | Method | Research Question |
-|-------|--------|-------------------|
-| **Layer 1** | BERT-based multi-label classification | What sustainability dimensions and emotions dominate consumer discourse? |
-| **Layer 2** | BERTopic within-dimension topic modeling | Which specific topics are consumers most concerned about? |
+Two complementary modeling approaches were applied:
+
+* **Supervised BERT fine-tuning** (`bert-base-uncased`) for Stage 1 (multi-label sustainability dimensions) and Stage 2 (multi-label emotional traits) classification
+* **Unsupervised BERTopic** for latent topic discovery within the environment, economic, and social dimensions
 
 ---
 
 ## 📁 Dataset
 
-Annotated datasets are available in the `/data` folder:
+Labeled datasets are available in the `/dataset` folder, with one file per classification stage:
 
 | File | Stage | Description |
-|------|-------|-------------|
-| `stage1_sustainability_dimensions_annotated.xlsx` | Stage 1 | 20,162 samples annotated for 5 sustainability dimensions (multi-label binary per dimension) |
-| `stage2_emotional_traits_annotated.xlsx` | Stage 2 | 20,162 samples annotated for 5 emotional traits (multi-class) |
+| --- | --- | --- |
+| `stage1_sustainability_dimension.xlsx` | Stage 1 | Consumer discourse documents annotated for five sustainability dimensions (multi-label, binary per dimension) |
+| `stage2_emotional_traits.xlsx` | Stage 2 | Consumer discourse documents annotated for five emotional traits (multi-class) |
 
-**Note on raw data:** Raw corpora from X and YouTube are not redistributed due to platform terms of service. The annotated label columns are included alongside preprocessed text.
+Each file contains preprocessed text data drawn from X (formerly Twitter) and YouTube. The **raw corpora** are not redistributed due to platform terms of service; please contact the corresponding author for access requests.
+
+---
+
+## 🧠 Model Training Notebooks
+
+The `/codes` folder contains all notebooks for fine-tuning BERT and running the BERTopic pipeline:
+
+* Use notebooks in `codes/BERT/Stage 1` or `codes/BERT/Stage 2` for supervised classification training and evaluation
+* Use notebooks in `codes/BERTopic` for the unsupervised topic modeling pipeline, run separately per dimension
+* Fine-tuning configurations (batch size, learning rate, epochs) follow the best-performing setups reported in the paper
+
+| # | Notebook | Stage | Input | Main Outputs |
+| --- | --- | --- | --- | --- |
+| 01 | `Stage 1 - Sustainability Dimension` | Stage 1 — Multi-label BERT | `stage1_sustainability_dimension.xlsx` | Fine-tuned classifier, classification report, predictions |
+| 02 | `Stage 2 - Emotional Trait` | Stage 2 — Multi-label BERT | `stage2_emotional_traits.xlsx` | Fine-tuned classifier, classification report, predictions |
+| 03 | `BERTopic Environment` | Topic Modeling | Pre-cleaned environment corpus | Topic info, distributions, keyword scores, HTML visualizations |
+| 04 | `BERTopic Economic` | Topic Modeling | Pre-cleaned economic corpus | Topic info, distributions, keyword scores, HTML visualizations |
+| 05 | `BERTopic Social` | Topic Modeling | Pre-cleaned social corpus | Topic info, distributions, keyword scores, HTML visualizations |
 
 ---
 
 ## 🔁 Reproducibility
 
-- Data splits use stratified random sampling (80/20)
-- Fixed random seeds: `set_seed(42)` for BERT notebooks; `random_state=42` for UMAP/HDBSCAN in BERTopic
-- BERTopic involves a stochastic UMAP step; minor variation across hardware is expected and does not affect substantive findings
-- A CUDA-enabled GPU is recommended for Notebooks 02–06
+* Data splits were stratified with a fixed random seed for the BERT notebooks
+* BERT classifiers were fine-tuned using the Hugging Face Transformers library with `bert-base-uncased`
+* BERTopic uses sentence-transformer embeddings with UMAP dimensionality reduction and HDBSCAN clustering (`min_cluster_size = 25`, `min_samples = 10`)
+* BERTopic involves a stochastic UMAP step; minor variation across hardware is expected and does not affect the substantive findings
+* A CUDA-enabled GPU is recommended for the BERT training notebooks
 
 To install dependencies and run locally:
 
-```bash
-git clone https://github.com/[your-username]/sustainable-fashion-discourse.git
-cd sustainable-fashion-discourse
+​```
+git clone https://github.com/syarafinadzh/Sustainable-Fashion-Discourse.git
+cd Sustainable-Fashion-Discourse
 python -m venv .venv
-source .venv/bin/activate       # Windows: .venv\Scripts\activate
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-```
+​```
 
 ---
 
-## 🔗 Links
+## 🤖 Pre-trained Models
 
-- 📄 **Paper:** *Submitted — link will be added upon acceptance*
-- 📁 **GitHub Repository:** [this repository]
-- 🤗 **Fine-tuned Models:** *Will be uploaded to Hugging Face Hub upon acceptance*
+Fine-tuned BERT classifiers will be uploaded to the Hugging Face Hub upon manuscript acceptance. Links will be added here after publication.
 
 ---
 
 ## ⚖️ License
 
-- **Code** (notebooks and scripts): [MIT License](LICENSE)
-- **Annotated data** (`data/`): [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
+* **Code** (notebooks and scripts): MIT License
+* **Annotated data** (`dataset/`): Creative Commons Attribution 4.0 International (CC BY 4.0)
 
 ---
 
 ## 📬 Contact
 
 For questions about the code, data, or methodology, please open a [GitHub Issue](../../issues) or contact the corresponding author indicated in the manuscript
+
 ---
 
 ## 🙏 Acknowledgements
 
-We acknowledge the developers of [BERTopic](https://github.com/MaartenGr/BERTopic), [Hugging Face Transformers](https://github.com/huggingface/transformers), and [Anthropic Claude](https://www.anthropic.com) whose tools made this research possible.
+We acknowledge the developers of [BERTopic](https://github.com/MaartenGr/BERTopic) and [Hugging Face Transformers](https://github.com/huggingface/transformers), on which this analysis depends.
