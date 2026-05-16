@@ -27,11 +27,6 @@ sustainable-fashion-discourse/
 │   ├── prompt_stage1_sustainability_dimension/
 │   ├── prompt_stage2_emotional_trait/
 │
-├── results/
-│   ├── figures/
-│   ├── tables/
-│   └── topic_outputs/
-│
 ├── requirements.txt
 ├── LICENSE
 └── CITATION.cff
