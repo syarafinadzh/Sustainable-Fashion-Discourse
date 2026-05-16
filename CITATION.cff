@@ -1,0 +1,56 @@
+cff-version: 1.2.0
+message: "If you use this dataset, code, or prompts, please cite as below."
+title: "Beyond Greenwashing: Mapping Consumer Discourse Priorities and Topic-Emotion-Strategy Communication Gaps in Sustainable Fashion Marketing"
+version: 1.0.0
+date-released: 2025-01-01
+url: "https://github.com/syarafinadzh/Sustainable-Fashion-Discourse"
+repository-code: "https://github.com/syarafinadzh/Sustainable-Fashion-Discourse"
+license: MIT
+type: software
+authors:
+  - family-names: "Jogaswara"
+    given-names: "Syarafina Putri Adzhani"
+    affiliation: "School of Economics and Business, Telkom University"
+    email: "syarafinadzh@student.telkomuniversity.ac.id"
+  - family-names: "Alamsyah"
+    given-names: "Andry"
+    affiliation: "School of Economics and Business, Telkom University"
+    email: "andrya@telkomuniversity.ac.id"
+  - family-names: "Ramadhani"
+    given-names: "Dian Puteri"
+    affiliation: "School of Economics and Business, Telkom University"
+    email: "dianpramadhani@telkomuniversity.ac.id"
+abstract: >
+  This repository contains annotated datasets, BERT training notebooks,
+  BERTopic topic modeling pipelines, and Claude API annotation prompts
+  for a multi-stage computational analysis of consumer sustainability
+  discourse in the fashion industry. The study proposes the
+  Topic-Emotion-Strategy (TES) Framework to diagnose communication gaps
+  between brand sustainability messaging and consumer discourse priorities.
+keywords:
+  - sustainable fashion
+  - consumer discourse
+  - BERT
+  - BERTopic
+  - topic modeling
+  - emotion classification
+  - communication gap
+  - TES framework
+  - greenwashing
+  - Triple Bottom Line
+  - Cognitive Appraisal Theory
+  - Signaling Theory
+preferred-citation:
+  type: article
+  title: "Beyond Greenwashing: Mapping Consumer Discourse Priorities and Topic-Emotion-Strategy Communication Gaps in Sustainable Fashion Marketing"
+  authors:
+    - family-names: "Jogaswara"
+      given-names: "Syarafina Putri Adzhani"
+    - family-names: "Alamsyah"
+      given-names: "Andry"
+    - family-names: "Ramadhani"
+      given-names: "Dian Puteri"
+  journal: "Journal of Global Fashion Marketing"
+  publisher: "Taylor & Francis"
+  year: 2025
+  notes: "Under review"

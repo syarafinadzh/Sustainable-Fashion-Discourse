@@ -1,20 +1,22 @@
-# Sustainable-Fashion-Discourse: A Topic-Emotion-Strategy Framework for Sustainable Fashion Communication
+# Sustainable-Fashion-Discourse
+### Beyond Greenwashing: Mapping Consumer Discourse Priorities and Topic-Emotion-Strategy Communication Gaps in Sustainable Fashion Marketing
 
-This repository contains the annotated datasets, model training notebooks, and reproducibility materials for the paper titled:
-
-> **"Beyond Greenwashing: Topic-Emotion Gaps in Consumer Discourse on Sustainable Fashion Marketing"**
+> **Syarafina Putri Adzhani Jogaswara · Andry Alamsyah · Dian Puteri Ramadhani**  
+> School of Economics and Business, Telkom University, Bandung, Indonesia  
+> *Submitted to Journal of Global Fashion Marketing (Taylor & Francis)*
 
 ---
 
 ## 📂 Repository Structure
-sustainable-fashion-discourse/
+
 ```
+Sustainable-Fashion-Discourse/
 │
-├── dataset/
-│   ├── stage1_sustainability_dimension.xlsx
-│   └── stage2_emotional_traits.xlsx
+├── Dataset/
+│   ├── stage1_sustainability_dimension.xlsx       ← Annotated: 5 sustainability dimensions
+│   └── stage2_emotional_traits.xlsx               ← Annotated: 5 emotional traits
 │
-├── codes/
+├── Codes/
 │   ├── BERT/
 │   │   ├── Stage 1 - Sustainability Dimension Classification/
 │   │   └── Stage 2 - Emotional Trait Classification/
@@ -23,103 +25,187 @@ sustainable-fashion-discourse/
 │       ├── Economic Topic Modeling/
 │       └── Social Topic Modeling/
 │
-├── prompt/
-│   ├── prompt_stage1_sustainability_dimension/
-│   ├── prompt_stage2_emotional_trait/
+├── Prompt/
+│   ├── prompt_stage1_sustainability_dimension.txt
+│   └── prompt_stage2_emotional_trait.txt
 │
 ├── requirements.txt
-├── LICENSE
-└── CITATION.cff
+├── LICENSE                                        ← MIT License
+├── CITATION.cff                                   ← Citation metadata
+└── README.md
 ```
+
 ---
 
 ## 📘 Project Overview
 
-This project introduces a multi-layer computational framework to analyze how sustainable fashion is:
+This study addresses the **trust crisis in sustainable fashion marketing** by examining what consumers discuss, how they emotionally engage, and where brand communication fails to align — at the **topic level**, not only the dimensional level.
 
-* **Discussed** (Stage 1: Sustainability Dimension Classification — mapping discourse to economic, social, environmental, cultural, and aesthetic dimensions)
-* **Felt** (Stage 2: Emotional Trait Classification — identifying anger, skepticism, concern, hope, and frustration in consumer discourse)
-* **Structured** (Topic Modeling: unsupervised BERTopic analysis within the three analytically dominant dimensions)
+Using BERT-based classification and BERTopic modeling on **20,162 consumer discourse samples** from X (Twitter) and YouTube, the study:
 
-The analysis culminates in the **Topic-Emotion-Strategy (TES) framework**, which links consumer-prioritized topics with dominant emotional responses to diagnose communication gaps between brand sustainability messaging and consumer concerns.
+1. Maps sustainability dimensions grounded in the **Triple Bottom Line (TBL)** framework
+2. Profiles emotional responses grounded in **Cognitive Appraisal Theory (CAT)**
+3. Identifies topic-level communication gaps through **Signaling Theory**
+4. Synthesizes findings into the **Topic-Emotion-Strategy (TES) Framework**
 
 Two complementary modeling approaches were applied:
 
-* **Supervised BERT fine-tuning** (`bert-base-uncased`) for Stage 1 (multi-label sustainability dimensions) and Stage 2 (multi-label emotional traits) classification
-* **Unsupervised BERTopic** for latent topic discovery within the environment, economic, and social dimensions
+- **Supervised BERT fine-tuning** (`bert-base-uncased`) for Stage 1 (multi-label sustainability dimensions) and Stage 2 (multi-label emotional traits) classification
+- **Unsupervised BERTopic** for latent topic discovery within the three analytically dominant dimensions (Environment, Economic, Social)
 
 ---
 
 ## 📁 Dataset
 
-Labeled datasets are available in the `/dataset` folder, with one file per classification stage:
+Annotated datasets are in the `/Dataset` folder:
 
-| File | Stage | Description |
-| --- | --- | --- |
-| `stage1_sustainability_dimension.xlsx` | Stage 1 | Consumer discourse documents annotated for five sustainability dimensions (multi-label, binary per dimension) |
-| `stage2_emotional_traits.xlsx` | Stage 2 | Consumer discourse documents annotated for five emotional traits (multi-class) |
+| File | Stage | N | Description |
+|------|-------|---|-------------|
+| `stage1_sustainability_dimension.xlsx` | Stage 1 | 20,162 | Consumer discourse annotated for 5 sustainability dimensions (multi-label, binary per dimension) |
+| `stage2_emotional_traits.xlsx` | Stage 2 | 20,162 | Consumer discourse annotated for 5 emotional traits (multi-label, binary per trait) |
 
-Each file contains preprocessed text data drawn from X (formerly Twitter) and YouTube. The **raw corpora** are not redistributed due to platform terms of service; please contact the corresponding author for access requests.
+Raw corpora from X and YouTube are not redistributed due to platform terms of service. Contact the corresponding author for access.
+
+### Stage 1 — Sustainability Dimensions (TBL-grounded)
+
+| Label | Definition |
+|-------|------------|
+| `environment` | Environmental harm reduction: waste, pollution, renewable energy, sustainable materials |
+| `economic` | Sustainable business models, supply chain economics, pricing, financial accountability |
+| `social` | Labor rights, supply chain equity, forced labor, ethical production practices |
+| `cultural` | Heritage preservation, cultural appropriation in fashion |
+| `aesthetic` | Design longevity, emotionally durable design, slow fashion behaviors |
+
+### Stage 2 — Emotional Traits (CAT-grounded)
+
+| Label | Definition |
+|-------|------------|
+| `anger` | Moral outrage directed at identifiable agents (other-blame appraisal) |
+| `skepticism` | Credibility uncertainty; greenwashing perception |
+| `concern` | Apprehension about systemic harm from industry practices |
+| `hopeful` | Positive future appraisal through innovation or collective action |
+| `frustration` | Goal obstruction from perceived barriers (price, access, information gaps) |
 
 ---
 
-## 🧠 Model Training Notebooks
+## 🤖 Annotation Pipeline
 
-The `/codes` folder contains all notebooks for fine-tuning BERT and running the BERTopic pipeline:
+Initial annotation was performed using the **Claude AI API (Anthropic)** with structured prompts grounded in the operational definitions above. See `/Prompt/` for the exact prompts used.
 
-* Use notebooks in `codes/BERT/Stage 1` or `codes/BERT/Stage 2` for supervised classification training and evaluation
-* Use notebooks in `codes/BERTopic` for the unsupervised topic modeling pipeline, run separately per dimension
-* Fine-tuning configurations (batch size, learning rate, epochs) follow the best-performing setups reported in the paper
+A stratified random sample was independently annotated by two researchers to validate automated labels:
 
-| # | Notebook | Stage | Input | Main Outputs |
-| --- | --- | --- | --- | --- |
-| 01 | `Stage 1 - Sustainability Dimension` | Stage 1 — Multi-label BERT | `stage1_sustainability_dimension.xlsx` | Fine-tuned classifier, classification report, predictions |
-| 02 | `Stage 2 - Emotional Trait` | Stage 2 — Multi-label BERT | `stage2_emotional_traits.xlsx` | Fine-tuned classifier, classification report, predictions |
-| 03 | `BERTopic Environment` | Topic Modeling | Pre-cleaned environment corpus | Topic info, distributions, keyword scores, HTML visualizations |
-| 04 | `BERTopic Economic` | Topic Modeling | Pre-cleaned economic corpus | Topic info, distributions, keyword scores, HTML visualizations |
-| 05 | `BERTopic Social` | Topic Modeling | Pre-cleaned social corpus | Topic info, distributions, keyword scores, HTML visualizations |
+| Stage | Sample Size | Cohen's Kappa | Interpretation |
+|-------|-------------|---------------|----------------|
+| Stage 1 | 178 samples | **κ = 0.8966** | Almost Perfect |
+| Stage 2 | 700 samples | **κ = 0.6982** | Substantial |
+
+Per-label Kappa values are reported in the paper's supplementary materials.
+
+---
+
+## 🧠 Model Training
+
+### BERT Classification (Codes/BERT/)
+
+`bert-base-uncased` fine-tuned with sigmoid activation for multi-label assignment.
+
+| Stage | Task | Macro F1 | Precision | Recall |
+|-------|------|----------|-----------|--------|
+| Stage 1 | Sustainability Dimensions | 0.81 | 0.86 | 0.78 |
+| Stage 2 | Emotional Traits | 0.77 | 0.81 | 0.74 |
+
+Best hyperparameters: `batch_size = 16`, `learning_rate = 2e-5`, `epochs = 2`
+
+### BERTopic Topic Modeling (Codes/BERTopic/)
+
+Applied separately to three dimension-specific corpora:
+
+| Dimension | Corpus Size | Valid Clusters | Key Parameters |
+|-----------|-------------|----------------|----------------|
+| Environment | 5,410 docs | 27 topics | min_cluster_size=25 |
+| Economic | 6,101 docs | 33 topics | min_cluster_size=25 |
+| Social | 4,658 docs | 35 topics | min_cluster_size=25 |
+
+Embedding model: `all-mpnet-base-v2` · UMAP: `n_neighbors=15, n_components=5` · HDBSCAN: `min_samples=10`
+
+---
+
+## 🔑 Key Findings
+
+| Finding | Detail |
+|---------|--------|
+| 📊 Economic ≥ Environmental | Economic (36.5%) slightly exceeds environmental (31.4%) — challenging common assumptions |
+| 😠 Social → Anger dominant | Social topics activate anger at 58.0%, nearly 2× other dimensions |
+| 🌱 Environmental → Hope | Hope dominates environmental discourse (31.4%), linked to consumer agency |
+| 💸 Pricing ≠ primary barrier | Pricing/affordability = only 4.8% of economic discourse |
+| 🏭 Structural critique ignored | Forced labor + accountability (25.2%) virtually absent from brand messaging |
+| ♻️ Eco-innovation mismatch | Eco-innovation = 6.5% of consumer discourse vs. dominant in brand messaging |
+
+### The TES Framework
+
+| Dimension | Consumer Priority | Dominant Emotion | Brand Gap | Recommended Strategy |
+|-----------|------------------|-----------------|-----------|----------------------|
+| Environmental | Pollution & toxics reduction | Hope (31.4%) | Eco-innovation over-messaging | **Amplification** — support actionable consumer behavior |
+| Economic | Supply chain transparency | Skepticism (24.0%) | Pricing assumed as #1 barrier | **Credibility-building** — disclose cost structures |
+| Social | Structural accountability | Anger (58.0%) | Systemic critique unaddressed | **Accountability-signaling** — name labor issues directly |
 
 ---
 
 ## 🔁 Reproducibility
 
-* Data splits were stratified with a fixed random seed for the BERT notebooks
-* BERT classifiers were fine-tuned using the Hugging Face Transformers library with `bert-base-uncased`
-* BERTopic uses sentence-transformer embeddings with UMAP dimensionality reduction and HDBSCAN clustering (`min_cluster_size = 25`, `min_samples = 10`)
-* BERTopic involves a stochastic UMAP step; minor variation across hardware is expected and does not affect the substantive findings
-* A CUDA-enabled GPU is recommended for the BERT training notebooks
+- Stratified 80/20 train-test splits with fixed random seed (`seed=42`)
+- BERT fine-tuning via Hugging Face Transformers (`bert-base-uncased`)
+- BERTopic stochastic UMAP step: minor variation across hardware is expected and does not affect substantive findings
+- CUDA-enabled GPU recommended for BERT notebooks
 
-To install dependencies and run locally:
-
-​```
+```bash
 git clone https://github.com/syarafinadzh/Sustainable-Fashion-Discourse.git
 cd Sustainable-Fashion-Discourse
 python -m venv .venv
-source .venv/bin/activate          # Windows: .venv\Scripts\activate
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-​```
+```
 
 ---
 
-## 🤖 Pre-trained Models
+## 🤗 Pre-trained Models
 
-Fine-tuned BERT classifiers will be uploaded to the Hugging Face Hub upon manuscript acceptance. Links will be added here after publication.
+Fine-tuned BERT classifiers will be uploaded to Hugging Face Hub upon manuscript acceptance. Links will be updated here after publication.
 
 ---
 
 ## ⚖️ License
 
-* **Code** (notebooks and scripts): MIT License
-* **Annotated data** (`dataset/`): Creative Commons Attribution 4.0 International (CC BY 4.0)
+- **Code** (notebooks and scripts): [MIT License](LICENSE)
+- **Annotated data** (`Dataset/`): [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
+
+---
+
+## 📄 Citation
+
+```bibtex
+@article{jogaswara2025beyondgreenwashing,
+  title     = {Beyond Greenwashing: Mapping Consumer Discourse Priorities and
+               Topic-Emotion-Strategy Communication Gaps in Sustainable Fashion Marketing},
+  author    = {Jogaswara, Syarafina Putri Adzhani and
+               Alamsyah, Andry and
+               Ramadhani, Dian Puteri},
+  journal   = {Journal of Global Fashion Marketing},
+  year      = {2025},
+  publisher = {Taylor \& Francis},
+  note      = {Under review}
+}
+```
 
 ---
 
 ## 📬 Contact
 
-For questions about the code, data, or methodology, please open a [GitHub Issue](../../issues) or contact the corresponding author indicated in the manuscript
+Open a [GitHub Issue](../../issues) or contact the corresponding author:  
+📧 `andrya@telkomuniversity.ac.id`
 
 ---
 
 ## 🙏 Acknowledgements
 
-We acknowledge the developers of [BERTopic](https://github.com/MaartenGr/BERTopic) and [Hugging Face Transformers](https://github.com/huggingface/transformers), on which this analysis depends.
+We acknowledge the developers of [BERTopic](https://github.com/MaartenGr/BERTopic), [Hugging Face Transformers](https://github.com/huggingface/transformers), and [Anthropic Claude](https://www.anthropic.com) on which this analysis depends.
