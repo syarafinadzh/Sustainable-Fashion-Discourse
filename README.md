@@ -1,5 +1,6 @@
 # Sustainable-Fashion-Discourse
-### Beyond Greenwashing: Mapping Consumer Discourse Priorities and Topic-Emotion-Strategy Communication Gaps in Sustainable Fashion Marketing
+### Beyond Greenwashing: A Topic-Emotion-Strategy Framework for Sustainable Fashion Marketing Communication<img width="468" height="51" alt="image" src="https://github.com/user-attachments/assets/4114b916-110d-4689-95c7-a162caee6b02" />
+
 
 > **Syarafina Putri Adzhani Jogaswara · Andry Alamsyah · Dian Puteri Ramadhani**  
 > School of Economics and Business, Telkom University, Bandung, Indonesia  
