@@ -1,5 +1,5 @@
 # Sustainable-Fashion-Discourse
-### Beyond Greenwashing: A Topic-Emotion-Strategy Framework for Sustainable Fashion Marketing Communication<img width="468" height="51" alt="image" src="https://github.com/user-attachments/assets/4114b916-110d-4689-95c7-a162caee6b02" />
+### Beyond Greenwashing: A Topic-Emotion-Strategy Framework for Sustainable Fashion Marketing Communication Based on Social Media Discourse Analysis
 
 
 > **Syarafina Putri Adzhani Jogaswara · Andry Alamsyah · Dian Puteri Ramadhani**  
